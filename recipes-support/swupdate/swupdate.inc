@@ -92,9 +92,13 @@ do_compile() {
   if [ "${@bb.utils.vercmp_string('${PV}', 'git')}" = "1"  ]; then
     oe_runmake
   else
-    oe_runmake swupdate_unstripped progress_unstripped
+    oe_runmake swupdate_unstripped
     cp swupdate_unstripped swupdate
-    cp progress_unstripped progress
+    if [ ! -d ${S}/tools ]
+    then
+      oe_runmake progress_unstripped
+      cp progress_unstripped progress
+    fi
   fi
 
 }
